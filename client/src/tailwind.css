@@ -7,3 +7,11 @@
 .text-primary {
   @apply text-blue-700; /* primary text color - for filtering text */
 }
+
+@layer base { /* doesn't matter at current ver of tailwindcss (v.4.1) */
+  button:not(:disabled) {
+    [role="button"]:not(:disabled) {
+      cursor: pointer;
+    }
+  }
+}
