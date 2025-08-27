@@ -7,7 +7,7 @@ export const emptycartGuard: CanActivateFn = (route, state) => {
   const cartService = inject(CartService);
   const snackbar = inject(SnackbarService);
 
-  if (!cartService.itemCount()) {
+  if (!cartService.itemCount()) { // could error because not cartService.cart()? (probably not)
     snackbar.error('Your cart is empty');
     return false;
   }
