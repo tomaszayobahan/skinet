@@ -16,6 +16,6 @@ import { CardPipe } from "../../../shared/pipes/card-pipe";
   styleUrl: './checkout-review.component.scss'
 })
 export class CheckoutReviewComponent {
- cartSerive = inject(CartService);
+ cartService = inject(CartService);
  @Input() confirmationToken?: ConfirmationToken;
 }
