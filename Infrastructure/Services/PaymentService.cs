@@ -6,14 +6,21 @@ using Stripe;
 
 namespace Infrastructure.Services;
 
-public class PaymentService(IConfiguration config, ICartService cartService,
-    IUnitOfWork unit) : IPaymentService
+public class PaymentService : IPaymentService
 {
-    public async Task<ShoppingCart?> CreateOrUpdatePaymentIntent(string cartId)
+    private ICartService cartService;
+    private IUnitOfWork unit;
+
+    public PaymentService(IConfiguration config, ICartService cartService,
+    IUnitOfWork unit)
     {
         StripeConfiguration.ApiKey = config["StripeSettings:SecretKey"]
             ?? throw new Exception("Stripe secret key not found");
-
+        this.cartService = cartService;
+        this.unit = unit;
+    }
+    public async Task<ShoppingCart?> CreateOrUpdatePaymentIntent(string cartId)
+    {
         var cart = await cartService.GetCartAsync(cartId);
 
         if (cart == null) return null;
@@ -69,5 +76,18 @@ public class PaymentService(IConfiguration config, ICartService cartService,
         await cartService.SetCartAsync(cart);
 
         return cart;
+    }
+
+    public async Task<string> RefundPayment(string paymentIntentId)
+    {
+        var refundOptions = new RefundCreateOptions
+        {
+            PaymentIntent = paymentIntentId,
+        };
+
+        var refundService = new RefundService();
+        var result = await refundService.CreateAsync(refundOptions);
+        
+        return result.Status;
     }
 }
