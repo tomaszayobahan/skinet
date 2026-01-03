@@ -1,0 +1,1 @@
+import{b as u}from"./chunk-RZ7JYMIF.js";import{e as t,ic as n,t as e}from"./chunk-R2JFBTDN.js";var v=(i,o)=>{let r=t(u),a=t(n);return r.currentUser()?!0:r.getAuthState().pipe(e(c=>c.isAuthenticated?!0:(a.navigate(["/account/login"],{queryParams:{returnUrl:o.url}}),!1)))};export{v as a};
